@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const Form = () => {
+export const Form = ({ handleAdd }) => {
   const [character, setCharacter] = useState({
     name: "",
     class: "",
@@ -14,7 +14,7 @@ export const Form = () => {
     event.target.class.value = "";
     event.target.race.value = "";
     event.target.startItems.value = "";
-    console.log(character);
+    handleAdd(character);
   };
 
   const handleChange = ({ target: { name, value } }) => {
