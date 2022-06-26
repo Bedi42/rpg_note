@@ -23,11 +23,18 @@ function App() {
     setIsRendered(false);
   };
 
+  const handleUpdate = (char) => {
+    set(ref(database, "/characters/" + char.id), char);
+    setIsRendered(false);
+  };
+
   return (
     <>
       <Title />
       {isRendered && <Form handleAdd={handleAdd} />}
-      {!isRendered && <CharacterCard characters={characters} />}
+      {!isRendered && (
+        <CharacterCard characters={characters} handleUpdate={handleUpdate} />
+      )}
     </>
   );
 }
