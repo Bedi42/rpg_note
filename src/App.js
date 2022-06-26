@@ -1,14 +1,13 @@
 import { Form } from "./components/Form";
 import { database } from "./firebase.config";
 import { useEffect, useState } from "react";
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, push } from "firebase/database";
 import { CharacterCard } from "./components/CharacterCard";
-import { NewItem } from "./components/NewItem";
 import { Title } from "./components/Title";
 import "./scss/main.css";
 
 function App() {
-  const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState({});
   const databaseRef = ref(database);
   const [isRendered, setIsRendered] = useState(true);
 
@@ -20,9 +19,7 @@ function App() {
   }, [databaseRef]);
 
   const handleAdd = (character) => {
-    set(databaseRef, {
-      characters: [...characters, character],
-    });
+    push(ref(database, "/characters"), character);
     setIsRendered(false);
   };
 
@@ -31,7 +28,6 @@ function App() {
       <Title />
       {isRendered && <Form handleAdd={handleAdd} />}
       {!isRendered && <CharacterCard characters={characters} />}
-      <NewItem />
     </>
   );
 }
